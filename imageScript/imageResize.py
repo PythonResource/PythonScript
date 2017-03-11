@@ -3,6 +3,7 @@
 
 import sys
 import os
+import copy
 
 try:
     from PIL import Image
@@ -36,9 +37,14 @@ except:
 
 print('width = ' + str(width) + ', height = ' + str(height))
 print(outPutPath)
-img0 = originImg.resize((width, height), Image.ANTIALIAS)
-img1 = originImg.resize((width*2, height*2), Image.ANTIALIAS)
-img2 = originImg.resize((width*3,height*3), Image.ANTIALIAS)
+
+img0 = copy.copy(originImg)
+img1 = copy.copy(originImg)
+img2 = copy.copy(originImg)
+
+img0.thumbnail((width, height), Image.ANTIALIAS)
+img1.thumbnail((width*2, height*2), Image.ANTIALIAS)
+img2.thumbnail((width*3,height*3), Image.ANTIALIAS)
 img0.save(outPutPath + 'imageIcon.png',"png")
 img1.save(outPutPath + 'imageIcon@2x.png',"png")
 img2.save(outPutPath + 'imageIcon@3x.png',"png")
