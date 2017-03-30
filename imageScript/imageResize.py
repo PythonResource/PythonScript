@@ -38,9 +38,9 @@ except:
 print('width = ' + str(width) + ', height = ' + str(height))
 print(outPutPath)
 
-img0 = copy.copy(originImg)
-img1 = copy.copy(originImg)
-img2 = copy.copy(originImg)
+img0 = originImg.copy()
+img1 = originImg.copy()
+img2 = originImg.copy()
 
 img0.thumbnail((width, height), Image.ANTIALIAS)
 img1.thumbnail((width*2, height*2), Image.ANTIALIAS)
