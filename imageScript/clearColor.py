@@ -16,6 +16,6 @@ img = Image.open(imgPath)
 # img.thumbnail((128,128), Image.ANTIALIAS)
 # img.save('/Users/xiexiaolong1/pythonCode/source/hehe.JPEG','JPEG')
 
-img.transpose(Image.FLIP_LEFT_RIGHT)
+i =  img.transpose(Image.FLIP_LEFT_RIGHT)
 
-img.show()
+i.show()
