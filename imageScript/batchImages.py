@@ -14,6 +14,7 @@ suffix = 'jpg'
 
 # 生成缩略图
 def resizeImageAndSave(imagePath, outPutPath, (width, height)):
+    print('正在处理' + imagePath)
     originImg = ''
     try:
         originImg = Image.open(imagePath)
@@ -23,7 +24,7 @@ def resizeImageAndSave(imagePath, outPutPath, (width, height)):
 
     extension = os.path.basename(imagePath)
     imageName, ext = os.path.splitext(extension)
-    print('file = ' + imageName + ', ext = ' + ext)
+    # print('file = ' + imageName + ', ext = ' + ext)
 
     img0 = originImg.copy()
     img1 = originImg.copy()
@@ -57,7 +58,7 @@ def scanImages(imageDirectory, outPutPath, (width, height)):
         t.start()
         while True:
             # 控制线程数量
-            if len(threading.enumerate()) < 10:
+            if len(threading.enumerate()) <= 10:
                 break
 
 
@@ -73,7 +74,7 @@ if __name__ == '__main__':
         quit()
 
     imageDirectory = sys.argv[1]
-    size = (sys.argv[2], sys.argv[3])
+    size = (int(sys.argv[2]), int(sys.argv[3]))
     # imageDirectory = '/Users/xiexiaolong1/Desktop/images/paper'
     # size = (100, 100)
 
