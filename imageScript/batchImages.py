@@ -63,6 +63,7 @@ def scanImages(imageDirectory, outPutPath, (width, height)):
         # resizeImageAndSave(imagePath, outPutPath, (width, height))
 
     for t in threads:
+        t.setDaemon(True)
         t.start()
         while True:
             # 控制线程数量
@@ -80,12 +81,21 @@ def getNowTime():
 if __name__ == '__main__':
 
     if len(sys.argv) < 4:
-        print (
-        '\033[31m' + 'Command error,eg: \'python %s /images/directory 20 30\', means generate thumbnails to 20x30'%sys.argv[0] + '\033[0m')
+        print ('\033[31m' + 'Command error,eg: \'python %s /images/directory 20 30\', means generate thumbnails to 20x30'%sys.argv[0] + '\033[0m')
         quit()
 
     imageDirectory = sys.argv[1]
-    size = (int(sys.argv[2]), int(sys.argv[3]))
+
+    width = 0
+    height = 0
+    try:
+        width = int(sys.argv[2])
+        height = int(sys.argv[3])
+    except:
+        print ('\033[31m' + '\'python %s /images/directory 20 30\'.'%sys.argv[0] + 'The last two parameters must be numbers.' + '\033[0m')
+        quit()
+
+    size = (width, height)
 
     if not os.path.exists(imageDirectory):
         print ('\033[31m' + 'Directory path: ' + '\'' + imageDirectory + '\'' + r" don't exist, please check it." + '\033[0m')
