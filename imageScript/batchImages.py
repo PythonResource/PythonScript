@@ -8,18 +8,29 @@ import glob
 import time
 import threading
 
-from PIL import Image
+try:
+    from PIL import Image
+except:
+    print ('\033[31m' + 'Missing Image module, installing Image module, please wait ...' + '\033[0m')
+    success = os.system('python -m pip install Image')
+    if success == 0:
+      print('\033[7;32m' + 'Image module installed successfully.' + '\033[0m')
+      from PIL import Image
+    else:
+      print ('\033[31m' + 'Image installation failed, please execute manually at terminal：\'python -m pip install Image\'re-install.' + '\033[0m')
+      quit()
 
-suffix = 'jpg'
+# 控制线程数, 保证速度与性能
+ThreadNumber = 10
 
 # 生成缩略图
 def resizeImageAndSave(imagePath, outPutPath, (width, height)):
-    print('正在处理' + imagePath)
+    print('Converting ' + imagePath)
     originImg = ''
     try:
         originImg = Image.open(imagePath)
     except:
-        print ('\033[31m' + '\'' + '图片路径: ' + imagePath + '\'' + '，该文件不是图片文件，请检查文件路径.' + '\033[0m')
+        print ('\033[31m' + 'image path: ' + '\'' + imagePath + '\'' + '. The file is not an image file, please check the file path.' + '\033[0m')
         return
 
     extension = os.path.basename(imagePath)
@@ -41,11 +52,8 @@ def resizeImageAndSave(imagePath, outPutPath, (width, height)):
 # 遍历文件加下的图片文件
 def scanImages(imageDirectory, outPutPath, (width, height)):
 
-    if not os.path.exists(imageDirectory):
-        print ('\033[31m' + '\'' + '文件夹路径: ' + imageDirectory + '\'' + '不存在' + '\033[0m')
-        return
-
-    imageList = glob.glob1(imageDirectory, '*.%s'%suffix)
+    # imageList = glob.glob1(imageDirectory, '*.%s'%suffix)
+    imageList = glob.glob1(imageDirectory, '*')
 
     threads = []
     for image in imageList:
@@ -58,8 +66,11 @@ def scanImages(imageDirectory, outPutPath, (width, height)):
         t.start()
         while True:
             # 控制线程数量
-            if len(threading.enumerate()) <= 10:
+            if len(threading.enumerate()) <= ThreadNumber:
                 break
+
+    print('\033[7;32m' + 'Finish batch images.' + '\033[0m')
+    os.system('open ' + outPutPath)
 
 
 # 获取当前时间
@@ -70,13 +81,15 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 4:
         print (
-        '\033[31m' + '请输入正确命令,eg: \'python %s /images/directory 20 30\',表示把图片重置为宽20高30的图片'%sys.argv[0] + '\033[0m')
+        '\033[31m' + 'Command error,eg: \'python %s /images/directory 20 30\', means generate thumbnails to 20x30'%sys.argv[0] + '\033[0m')
         quit()
 
     imageDirectory = sys.argv[1]
     size = (int(sys.argv[2]), int(sys.argv[3]))
-    # imageDirectory = '/Users/xiexiaolong1/Desktop/images/paper'
-    # size = (100, 100)
+
+    if not os.path.exists(imageDirectory):
+        print ('\033[31m' + 'Directory path: ' + '\'' + imageDirectory + '\'' + r" don't exist, please check it." + '\033[0m')
+        quit()
 
     # 输出路径准备
     userDir = os.path.expanduser('~')
@@ -88,7 +101,3 @@ if __name__ == '__main__':
 
     # 浏览图片并生成缩略图
     scanImages(imageDirectory, outPutPath, size)
-
-
-    # imageName = '/Users/xiexiaolong1/Desktop/images/paper/331.jpg'
-    # resizeImageAndSave(imageName, outPutPath,(80, 80))
