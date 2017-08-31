@@ -3,7 +3,18 @@
 # 重要: 一定要放在项目目录下执行脚本，否则你会很嗨.
 # 删除iOS项目中的注释行
 
-path=$(cd "$(dirname "$0")";pwd)
+if [[ ! $1 ]]; then
+	echo "缺少参数, eg: bash /path/$0 /project/path ."
+	exit 0
+fi
+
+if [[ ! -d $1 ]]; then
+	echo "输入的参数: $1 不是文件夹 ."
+	exit 0
+fi
+
+# path=$(cd "$(dirname "$0")";pwd)
+path=$1
 echo ${path}
 
 files=`find . -name "*.xcodeproj"`
