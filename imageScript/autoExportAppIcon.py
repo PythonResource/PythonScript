@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# 简介: iOS app图标生成脚本, 生成后直接拖入xcode中就行
+# 用法: python autoExportAppIcon.py /path/xxx.png
+
 import sys
 import os
 

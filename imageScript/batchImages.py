@@ -1,5 +1,9 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # coding: utf-8
+
+# 简介: 批量生成书略图, 适用于iOS开发生成@1x, @2x, @3x 缩略图
+# 用法: 终端执行: python /path/script.py /path/images/directory 20 30
+# 说明: 20 30 为生成的缩略图为等比的, 例如: 400x500会生成,  20x25, 40x50, 60x75 三张缩略图
 
 import sys
 import os
