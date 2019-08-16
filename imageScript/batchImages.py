@@ -30,7 +30,7 @@ ThreadNumber = 10
 
 
 # 生成缩略图
-def resizeImageAndSave(imagePath, outPutPath, (width, height)):
+def resizeImageAndSave(imagePath, outPutPath, size):
     print('Converting ' + imagePath)
     originImg = ''
     try:
@@ -58,10 +58,11 @@ def resizeImageAndSave(imagePath, outPutPath, (width, height)):
 
 
 # 遍历文件加下的图片文件
-def scanImages(imageDirectory, outPutPath, (width, height)):
+def scanImages(imageDirectory, outPutPath, size):
     imageList = glob.glob1(imageDirectory, '*')
 
     threads = []
+    print ('fuck')
     for image in imageList:
         imagePath = os.path.join(imageDirectory, image)
         t = threading.Thread(target=resizeImageAndSave, args=(imagePath, outPutPath, (width, height)))
@@ -76,7 +77,7 @@ def scanImages(imageDirectory, outPutPath, (width, height)):
             if len(threading.enumerate()) <= ThreadNumber:
                 break
 
-    print('\033[7;32m' + 'Finish batch images.' + '\033[0m')
+    print('\033[7;32m' + 'Batch images finished.' + '\033[0m')
     os.system('open ' + outPutPath)
 
 
